@@ -24,33 +24,20 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function updateClock() {
       const timer = getTimeRemaining();
-
-      timerHours.textContent = timer.hours;
-      timerMinutes.textContent = timer.minutes;
-      timerSeconds.textContent = timer.seconds;
+      timerHours.textContent = ('0' + timer.hours).slice(-2);
+      timerMinutes.textContent = ('0' + timer.minutes).slice(-2);
+      timerSeconds.textContent = ('0' + timer.seconds).slice(-2);
 
       if (timer.timeRemaining > 0) {
-        setInterval(updateClock, 1000);
-      } 
+        setTimeout(updateClock, 1000);
+      } else {
+        timerHours.textContent = '00';
+        timerMinutes.textContent = '00';
+        timerSeconds.textContent = '00';
+      }
     }
     updateClock();
   }
-
-  countTimer('18 september 2019');
-
-  /* Первым аргументом передаётся функция колбэк */
-  /* Вторым аргументом передаётся количество миллисекунд через которое должна выполниться колбэк функция */
-  /* Третий не обязательный параметр, - это значение которое мы можем передать аргументом в колбэк функцию */
-  
-  // setInterval((arg) => {
-  //   console.log("Я колбэк функция setInterval, выполняюсь через 1000 милисекунд." + arg);
-  // }, 1000, " А я аргумент который может передаваться в колбэк функцию.");
-
-  // /* Функцию  колбэк можно вынести за пределы setInterval и сделать например вот так */
-  // function funcCallBack(arg) {
-  //   console.log("Я колбэк функция setInterval, выполняюсь через 1000 милисекунд." + arg);
-  // }
-
-  // setInterval(funcCallBack, 1000, " А я аргумент который может передаваться в колбэк функцию.");
+  countTimer('15 september 2019');
 
 });
