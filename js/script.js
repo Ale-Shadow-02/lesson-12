@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function updateClock() {
       const timer = getTimeRemaining();
-      timerHours.textContent = ('0' + timer.hours).slice(-2);
+      timerHours.textContent = ('0' + timer.hours).slice(-3);
       timerMinutes.textContent = ('0' + timer.minutes).slice(-2);
       timerSeconds.textContent = ('0' + timer.seconds).slice(-2);
 
@@ -38,6 +38,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     updateClock();
   }
-  countTimer('20 september 2019');
+  countTimer('30 september 2019');
 
 });
