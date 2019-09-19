@@ -40,4 +40,16 @@ window.addEventListener('DOMContentLoaded', function () {
   }
   countTimer('30 september 2019');
 
+  // Меню
+
+  const toggleMenu = () => {
+    const btnMenu = document.querySelector('.menu'),
+          menu = document.querySelector('menu');
+      btnMenu.addEventListener('click', () => {
+        menu.style.transform = `translate(0)`;
+      });
+  };
+
+  toggleMenu();
+
 });
