@@ -39,8 +39,8 @@ window.addEventListener('DOMContentLoaded', function () {
     let idTimer = setInterval(updateClock, 1000);
   }
 
-   let deadLine = new Date(Date.parse(new Date()) + 0.001 * 60 * 60 * 1000); // Для счетчика по времени
-  //let deadLine = '2019-09-19'; // Для счетчика по дате
+   //let deadLine = new Date(Date.parse(new Date()) + 0.001 * 60 * 60 * 1000); // Для счетчика по времени
+  let deadLine = '2019-09-20'; // Для счетчика по дате
   initializeClock(deadLine);
 
 

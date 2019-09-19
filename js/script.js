@@ -38,6 +38,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     updateClock();
   }
-  countTimer('15 september 2019');
+  countTimer('20 september 2019');
 
 });
