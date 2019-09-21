@@ -69,17 +69,21 @@ window.addEventListener('DOMContentLoaded', function () {
     const popup = document.querySelector('.popup'),
       popupBtn = document.querySelectorAll('.popup-btn'),
       popupClose = document.querySelector('.popup-close');
+
+    popup.style = `display: block; transform: translateX(-100%);`;
     popupBtn.forEach((elem) => {
       elem.addEventListener('click', () => {
-        popup.style.display = 'block';
+        if (!popup.style.transaform || popup.style.transaform === `translateX(-100%)`) {
+          popup.style = `display: block; transform: translateX(0); transition: 1s ease;`;
+        } else {
+          popup.style = `display: block; transform: translateX(-100%);`;
+        }
       });
-      });
-      popupClose.addEventListener('click', () => {
-        popup.style.display = 'none';
-      });
-    
+    });
+    popupClose.addEventListener('click', () => {
+      popup.style = `display: block; transform: translateX(-100%); transition: 1s ease;`;
+    });
   };
   togglePopup();
-
 
 });
