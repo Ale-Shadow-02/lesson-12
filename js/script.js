@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function updateClock() {
       const timer = getTimeRemaining();
-      timerHours.textContent = ('0' + timer.hours).slice(-3);
+      timerHours.textContent = ('0' + timer.hours).slice(-2);
       timerMinutes.textContent = ('0' + timer.minutes).slice(-2);
       timerSeconds.textContent = ('0' + timer.seconds).slice(-2);
 
@@ -237,6 +237,38 @@ window.addEventListener('DOMContentLoaded', function () {
     startSlide(1500);
   };
   slider();
+
+  //Секция наша команда Замена фото при наведении мышы
+
+  const mouseHover = () => {
+    const commandPhoto = document.querySelectorAll('img.command__photo');
+    commandPhoto.forEach((elem) => {
+      let imgSrc = elem.src;
+      elem.addEventListener('mouseenter', ({
+        target
+      }) => {
+        target.src = target.dataset.img;
+      });
+      elem.addEventListener('mouseleave', ({
+        target
+      }) => {
+        target.src = imgSrc;
+      });
+
+    });
+  };
+  mouseHover();
+
+  const inputValid = () => {
+    const input = document.querySelectorAll('.calc-block > input');
+    console.log('input: ', input);
+    input.forEach((elem) => {
+      elem.addEventListener('input', () => {
+        elem.value = elem.value.replace(/\D/g, '');
+      });
+    });
+  };
+  inputValid();
 
 
 });
