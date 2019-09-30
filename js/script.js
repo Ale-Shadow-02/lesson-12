@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function updateClock() {
       const timer = getTimeRemaining();
-      timerHours.textContent = ('0' + timer.hours).slice(-2);
+      timerHours.textContent = ('0' + timer.hours).slice(-3);
       timerMinutes.textContent = ('0' + timer.minutes).slice(-2);
       timerSeconds.textContent = ('0' + timer.seconds).slice(-2);
 
@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', function () {
     updateClock();
     id = setTimeout(updateClock, 1000);
   }
-  countTimer('30 september 2019');
+  countTimer('13 October 2019');
 
   // Меню
 
@@ -297,16 +297,15 @@ window.addEventListener('DOMContentLoaded', function () {
       }
 
       if (typeValue && squareValue && +calcCount.value && +calcDay.value) {
-        console.log('calcDay.value: ', calcDay.value);
-        console.log('calcCount.value: ', calcCount.value);
         total = price * typeValue * squareValue * countValue * dayValue;
       }
 
       totalValue.textContent = Math.ceil(total);
     };
 
-    calcBlock.addEventListener('change', (event) => {
-      const target = event.target;
+    calcBlock.addEventListener('change', ({
+      target
+    }) => {
       if (target.matches('select') || target.matches('input')) {
         countSum();
       }
@@ -315,5 +314,137 @@ window.addEventListener('DOMContentLoaded', function () {
 
   };
   calc(100);
+
+  // Send-Ajax-Form 
+  const sendForm = () => {
+    const errorMessage = 'Что то пошло не так...',
+      loadMessage = 'Загрузка...',
+      successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+    // const form1 = document.getElementById('form1'),
+    //  form3 = document.getElementById('form3'),
+    //  form2 = document.getElementById('form2'),
+    const statusMessage = document.createElement('div');
+
+    const forms = document.querySelectorAll('form');
+    forms.forEach((elem) => {
+      elem.addEventListener('submit', (event) => {
+        event.preventDefault();
+        elem.appendChild(statusMessage);
+        statusMessage.textContent = loadMessage;
+        statusMessage.style.cssText = 'color: white;';
+        const formData = new FormData(elem);
+
+        let body = {};
+
+        // for (let val of formData.entries()) {
+        //   body[val[0]] = val[1];
+        // }
+
+        formData.forEach((val, key) => {
+          body[key] = val;
+        });
+        postData(body, () => {
+          statusMessage.textContent = successMessage;
+        }, (error) => {
+          statusMessage.textContent = errorMessage;
+          console.log(error);
+        });
+      });
+    });
+
+
+
+    /* 
+        form1.addEventListener('submit', (event) => {
+          event.preventDefault();
+          form1.appendChild(statusMessage);
+          statusMessage.textContent = loadMessage;
+          const formData = new FormData(form1);
+
+          let body = {};
+
+          // for (let val of formData.entries()) {
+          //   body[val[0]] = val[1];
+          // }
+
+          formData.forEach((val, key) => {
+            body[key] = val;
+          });
+          postData(body, () => {
+            statusMessage.textContent = successMessage;
+          }, (error) => {
+            statusMessage.textContent = errorMessage;
+            console.log(error);
+          });
+        });
+        
+        
+        
+        form3.addEventListener('submit', (event) => {
+          event.preventDefault();
+          form3.appendChild(statusMessage);
+          statusMessage.textContent = loadMessage;
+          statusMessage.style.cssText = 'color: white;';
+          const formData = new FormData(form3);
+
+          let body = {};
+
+          formData.forEach((val, key) => {
+            body[key] = val;
+          });
+          postData(body, () => {
+            statusMessage.textContent = successMessage;
+          }, (error) => {
+            statusMessage.textContent = errorMessage;
+            console.log(error);
+          });
+        });
+        
+        
+        form2.addEventListener('submit', (event) => {
+          event.preventDefault();
+          form2.appendChild(statusMessage);
+          statusMessage.textContent = loadMessage;
+          const formData = new FormData(form2);
+
+          let body = {};
+
+          formData.forEach((val, key) => {
+            body[key] = val;
+          });
+          postData(body, () => {
+            statusMessage.textContent = successMessage;
+          }, (error) => {
+            statusMessage.textContent = errorMessage;
+            console.log(error);
+          });
+        });
+     */
+
+
+    const postData = (body, outputData, errorData) => {
+      const request = new XMLHttpRequest();
+      request.addEventListener('readystatechange', () => {
+        if (request.readyState !== 4) {
+          return;
+        }
+        if (request.status === 200) {
+          outputData();
+        } else {
+          errorData(request.status);
+        }
+      });
+
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-Type', 'application/json');
+
+      request.send(JSON.stringify(body));
+    };
+
+  };
+
+  sendForm();
+
 
 });
