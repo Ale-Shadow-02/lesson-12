@@ -337,109 +337,40 @@ window.addEventListener('DOMContentLoaded', function () {
 
         let body = {};
 
-        // for (let val of formData.entries()) {
-        //   body[val[0]] = val[1];
-        // }
-
         formData.forEach((val, key) => {
           body[key] = val;
         });
-        postData(body, () => {
-          statusMessage.textContent = successMessage;
-        }, (error) => {
-          statusMessage.textContent = errorMessage;
-          console.log(error);
-        });
+
+        postData(body)
+          .then(() => {
+            statusMessage.textContent = successMessage;
+          })
+          .catch((error) => {
+            statusMessage.textContent = errorMessage;
+            console.log(error);
+          });
       });
     });
 
 
-
-    /* 
-        form1.addEventListener('submit', (event) => {
-          event.preventDefault();
-          form1.appendChild(statusMessage);
-          statusMessage.textContent = loadMessage;
-          const formData = new FormData(form1);
-
-          let body = {};
-
-          // for (let val of formData.entries()) {
-          //   body[val[0]] = val[1];
-          // }
-
-          formData.forEach((val, key) => {
-            body[key] = val;
-          });
-          postData(body, () => {
-            statusMessage.textContent = successMessage;
-          }, (error) => {
-            statusMessage.textContent = errorMessage;
-            console.log(error);
-          });
+    const postData = (body) => {
+      return new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
+        request.addEventListener('readystatechange', () => {
+          if (request.readyState !== 4) {
+            return;
+          }
+          if (request.status === 200) {
+            resolve();
+          } else {
+            reject(request.status);
+          }
         });
-        
-        
-        
-        form3.addEventListener('submit', (event) => {
-          event.preventDefault();
-          form3.appendChild(statusMessage);
-          statusMessage.textContent = loadMessage;
-          statusMessage.style.cssText = 'color: white;';
-          const formData = new FormData(form3);
 
-          let body = {};
-
-          formData.forEach((val, key) => {
-            body[key] = val;
-          });
-          postData(body, () => {
-            statusMessage.textContent = successMessage;
-          }, (error) => {
-            statusMessage.textContent = errorMessage;
-            console.log(error);
-          });
-        });
-        
-        
-        form2.addEventListener('submit', (event) => {
-          event.preventDefault();
-          form2.appendChild(statusMessage);
-          statusMessage.textContent = loadMessage;
-          const formData = new FormData(form2);
-
-          let body = {};
-
-          formData.forEach((val, key) => {
-            body[key] = val;
-          });
-          postData(body, () => {
-            statusMessage.textContent = successMessage;
-          }, (error) => {
-            statusMessage.textContent = errorMessage;
-            console.log(error);
-          });
-        });
-     */
-
-
-    const postData = (body, outputData, errorData) => {
-      const request = new XMLHttpRequest();
-      request.addEventListener('readystatechange', () => {
-        if (request.readyState !== 4) {
-          return;
-        }
-        if (request.status === 200) {
-          outputData();
-        } else {
-          errorData(request.status);
-        }
+        request.open('POST', './server.php');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(body));
       });
-
-      request.open('POST', './server.php');
-      request.setRequestHeader('Content-Type', 'application/json');
-
-      request.send(JSON.stringify(body));
     };
 
   };
