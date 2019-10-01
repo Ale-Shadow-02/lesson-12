@@ -339,11 +339,17 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const forms = document.querySelectorAll('form');
     forms.forEach((elem) => {
-      elem.addEventListener('submit', (event) => {
-        event.preventDefault();
-        elem.appendChild(statusMessage);
-        statusMessage.textContent = loadMessage;
-        statusMessage.style.cssText = 'color: white;';
+          elem.querySelectorAll('input').forEach((elem) => {
+            elem.addEventListener('input', function () {
+              validInput(elem);
+            });
+          });
+
+          elem.addEventListener('submit', (event) => {
+                event.preventDefault();
+                elem.appendChild(statusMessage);
+                statusMessage.textContent = loadMessage;
+                statusMessage.style.cssText = 'color: white;';
         const formData = new FormData(elem);
 
         let body = {};
@@ -357,6 +363,7 @@ window.addEventListener('DOMContentLoaded', function () {
         });
         postData(body, () => {
           statusMessage.textContent = successMessage;
+          clearInput(elem);
         }, (error) => {
           statusMessage.textContent = errorMessage;
           console.log(error);
@@ -386,6 +393,13 @@ window.addEventListener('DOMContentLoaded', function () {
   };
 
   sendForm();
+
+       const clearInput = (elem) => {
+         elem.querySelectorAll('input').forEach(elem => {
+           elem.value = '';
+         });
+       };
+
   
 
 
