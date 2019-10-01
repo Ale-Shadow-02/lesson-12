@@ -322,6 +322,19 @@ window.addEventListener('DOMContentLoaded', function () {
       successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
     const statusMessage = document.createElement('div');
+    const validInput = (input) => {
+      let typeInput = input.getAttribute('type'),
+        regExp = new RegExp();
+
+      if (typeInput === 'text') {
+        regExp = /^[А-Яёа-яё\s]+$/;
+      } else if (typeInput === 'tel') {
+        regExp = /^\+$|\d+$/;
+      }
+      if (!regExp.test(input.value)) {
+        input.value = input.value.slice(0, -1);
+      }
+    };
 
     const forms = document.querySelectorAll('form');
     forms.forEach((elem) => {
