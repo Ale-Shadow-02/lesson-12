@@ -347,7 +347,6 @@ window.addEventListener('DOMContentLoaded', function () {
       });
 
       elem.addEventListener('submit', (event) => {
-        console.log('elem: ', elem);
         event.preventDefault();
         elem.appendChild(statusMessage);
         statusMessage.textContent = loadMessage;
