@@ -318,7 +318,8 @@ window.addEventListener('DOMContentLoaded', function () {
   const sendForm = () => {
     const errorMessage = 'Что то пошло не так...',
       loadMessage = 'Загрузка...',
-      successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+      successMessage = 'Спасибо! Мы скоро с вами свяжемся!',
+      statusMessage = document.createElement('div');
 
     const validInput = (input) => {
       let typeInput = input.getAttribute('type'),
@@ -333,9 +334,6 @@ window.addEventListener('DOMContentLoaded', function () {
         input.value = input.value.slice(0, -1);
       }
     };
-
-
-    const statusMessage = document.createElement('div');
 
     const forms = document.querySelectorAll('form');
     forms.forEach((elem) => {
@@ -364,6 +362,7 @@ window.addEventListener('DOMContentLoaded', function () {
               throw new Error('status network not 2000');
             }
             statusMessage.textContent = successMessage;
+            clearInput(elem);
           })
           .catch((error) => {
             statusMessage.textContent = errorMessage;
@@ -371,7 +370,6 @@ window.addEventListener('DOMContentLoaded', function () {
           });
       });
     });
-
 
     const postData = (body) => {
       return fetch('./server.php', {
@@ -382,17 +380,15 @@ window.addEventListener('DOMContentLoaded', function () {
         body: JSON.stringify(body)
       });
 
-
-      
-
     };
   };
 
   sendForm();
-
-
-
-
+  const clearInput = (elem) => {
+    elem.querySelectorAll('input').forEach(elem => {
+      elem.value = '';
+    });
+  };
 
 
 });
