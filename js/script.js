@@ -325,7 +325,7 @@ window.addEventListener('DOMContentLoaded', function () {
       let typeInput = input.getAttribute('type'),
         regExp = new RegExp();
 
-      if (typeInput === 'text') {
+      if (typeInput === 'text' || input.classList.contains('mess')) {
         regExp = /^[А-Яёа-яё\s]+$/;
       } else if (typeInput === 'tel') {
         regExp = /^\+$|\d+$/;
